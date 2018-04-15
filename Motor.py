@@ -18,7 +18,7 @@ def stop():
     setStep(0, 0, 0, 0)
 
 
-def forward(steps):
+def motor_forward(steps):
     for i in range(0, steps):
         setStep(1, 0, 0, 0)
         time.sleep(0.003)
@@ -30,7 +30,7 @@ def forward(steps):
         time.sleep(0.003)
 
 
-def backward(steps):
+def motor_backward(steps):
     for i in range(0, steps):
         setStep(0, 0, 0, 1)
         time.sleep(0.003)

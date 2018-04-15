@@ -6,7 +6,7 @@ $(function() {
 	var duration = $('.timebar .duration'); //总时间
 	var progress = $('.timebar .progress-bar'); //进度条
 	var volumebar = $('.volumeBar .volumewrap').find('.progress-bar');
-	playVideo[0].volume = 0.4; //初始化音量
+	// playVideo[0].volume = 0.4; //初始化音量
 	playPause.on('click', function() {
 		playControl();
 	});
@@ -21,9 +21,9 @@ $(function() {
 			'right': -40
 		}, 500);
 	});
-	$(document).click(function() {
-		$('.volumeBar').hide();
-	});
+	// $(document).click(function() {
+	// 	$('.volumeBar').hide();
+	// });
 	// playVideo.on('loadedmetadata', function() {
 	// 	duration.text(formatSeconds(playVideo[0].duration));
 	// });
@@ -83,17 +83,17 @@ $(function() {
 		return false;
 	});
 	//音量
-	$('.volume').on('click', function(e) {
-		e = e || window.event;
-		$('.volumeBar').toggle();
-		e.stopPropagation();
-	});
-	$('.volumeBar').on('click mousewheel DOMMouseScroll', function(e) {
-		e = e || window.event;
-		volumeControl(e);
-		e.stopPropagation();
-		return false;
-	});
+	// $('.volume').on('click', function(e) {
+	// 	e = e || window.event;
+	// 	$('.volumeBar').toggle();
+	// 	e.stopPropagation();
+	// });
+	// $('.volumeBar').on('click mousewheel DOMMouseScroll', function(e) {
+	// 	e = e || window.event;
+	// 	volumeControl(e);
+	// 	e.stopPropagation();
+	// 	return false;
+	// });
 	$('.timebar .progress').mousedown(function(e) {
 		e = e || window.event;
 		updatebar(e.pageX);
@@ -136,41 +136,40 @@ $(function() {
 		last_percentage = percentage;
 		//Update progress bar and video currenttime
 		progress.css('width', percentage + '%');
-		// playVideo[0].currentTime = maxduration * percentage / 100;
 		
 	};
 
 	//音量控制
-	function volumeControl(e) {
-		e = e || window.event;
-		var eventype = e.type;
-		var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));
-		var positions = 0;
-		var percentage = 0;
-		if (eventype == "click") {
-			positions = volumebar.offset().top - e.pageY;
-			percentage = 100 * (positions + volumebar.height()) / $('.volumeBar .volumewrap').height();
-		} else if (eventype == "mousewheel" || eventype == "DOMMouseScroll") {
-			percentage = 100 * (volumebar.height() + delta) / $('.volumeBar .volumewrap').height();
-		}
-		if (percentage < 0) {
-			percentage = 0;
-			$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-off');
-		}
-		if (percentage > 50) {
-			$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-up');
-		}
-		if (percentage > 0 && percentage <= 50) {
-			$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-down');
-		}
-		if (percentage >= 100) {
-			percentage = 100;
-		}
-		$('.volumewrap .progress-bar').css('height', percentage + '%');
-		playVideo[0].volume = percentage / 100;
-		e.stopPropagation();
-		e.preventDefault();
-	}
+	// function volumeControl(e) {
+	// 	e = e || window.event;
+	// 	var eventype = e.type;
+	// 	var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));
+	// 	var positions = 0;
+	// 	var percentage = 0;
+	// 	if (eventype == "click") {
+	// 		positions = volumebar.offset().top - e.pageY;
+	// 		percentage = 100 * (positions + volumebar.height()) / $('.volumeBar .volumewrap').height();
+	// 	} else if (eventype == "mousewheel" || eventype == "DOMMouseScroll") {
+	// 		percentage = 100 * (volumebar.height() + delta) / $('.volumeBar .volumewrap').height();
+	// 	}
+	// 	if (percentage < 0) {
+	// 		percentage = 0;
+	// 		$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-off');
+	// 	}
+	// 	if (percentage > 50) {
+	// 		$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-up');
+	// 	}
+	// 	if (percentage > 0 && percentage <= 50) {
+	// 		$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-down');
+	// 	}
+	// 	if (percentage >= 100) {
+	// 		percentage = 100;
+	// 	}
+	// 	$('.volumewrap .progress-bar').css('height', percentage + '%');
+	// 	playVideo[0].volume = percentage / 100;
+	// 	e.stopPropagation();
+	// 	e.preventDefault();
+	// }
 
 	function playControl() {
 			playPause.toggleClass('playIcon');

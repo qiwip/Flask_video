@@ -21,17 +21,15 @@
 	<div class="playContent">
 		<div class="turnoff">
 			<ul>
-				<li><a href="javascript:;" title="左转" class="glyphicon glyphicon-heart-empty"></a></li>
-				<li><a href="javascript:;" title="右转" class="btnLight on glyphicon glyphicon-sunglasses"></a></li>
-				<li><a href="javascript:;" title="分享" class="glyphicon glyphicon-share"></a></li>
+				<li><a href="javascript:;" title="关灯" class="btnLight on glyphicon glyphicon-sunglasses"></a></li>
 			</ul>
 		</div>
-		<video width="100%" height="100%" id="playVideo">
-			<!--<source src="{{ url_for('video_feed') }}" type="video/mp4"></source>-->
+		<!-- <video width="100%" height="100%" id="playVideo">
+			<source src="{{ url_for('video_feed') }}" type="video/mp4"></source>
 			<source src="static/movie.ogg" type="video/mp4"></source>
 			当前浏览器不支持 video直接播放，点击这里下载视频： <a href="/">下载视频</a>
-		</video>
-		<!-- <img src="{{ url_for('video_feed') }}" width="100%" height="100%" id="playVideo"> -->
+		</video> -->
+		<img src="{{ url_for('video_feed') }}" width="100%" height="100%" id="playVideo">
 		<div class="playTip glyphicon glyphicon-play"></div>
 	</div>
 	<div class="playControll">
