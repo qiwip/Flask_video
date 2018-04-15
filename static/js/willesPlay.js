@@ -1,5 +1,5 @@
 $(function() {
-	var rpio = require('rpio');
+	var last_percentage = 0;
 	var playVideo = $('video');
 	var playPause = $('.playPause'); //播放和暂停
 	var currentTime = $('.timebar .currentTime'); //当前时间
@@ -7,10 +7,6 @@ $(function() {
 	var progress = $('.timebar .progress-bar'); //进度条
 	var volumebar = $('.volumeBar .volumewrap').find('.progress-bar');
 	playVideo[0].volume = 0.4; //初始化音量
-	rpio.open(11, rpio.OUTPUT, rpio.LOW);
-	rpio.open(12, rpio.OUTPUT, rpio.LOW);
-	rpio.open(13, rpio.OUTPUT, rpio.LOW);
-	rpio.open(15, rpio.OUTPUT, rpio.LOW);
 	playPause.on('click', function() {
 		playControl();
 	});
@@ -106,59 +102,42 @@ $(function() {
 	//	volumeControl(e);
 	//});
 
-	function setStep(w1, w2, w3, w4) {
-		rpio.write(11, w1);
-		rpio.write(12, w2);
-		rpio.write(13, w3);
-		rpio.write(15, w4);
+	function forward(angle) {
+		$.ajax ({
+			type: 'GET',
+			url: '/forward',
+			data: {'angle': angle},
+			success: function(_callback){$('#text').text(_callback);}
+		});
 	}
 
-	function stop() {
-		setStep(rpio.LOW, rpio.LOW, rpio.LOW, rpio.LOW);
-	}
-
-	function forward(delay, steps) {
-		for (var i = 0; i < steps; i++) {
-			setStep(rpio.HIGH, rpio.LOW, rpio.LOW, rpio.LOW)
-			rpio.msleep(delay);
-			setStep(rpio.LOW, rpio.HIGH, rpio.LOW, rpio.LOW)
-			rpio.msleep(delay);
-			setStep(rpio.LOW, rpio.LOW, rpio.HIGH, rpio.LOW)
-			rpio.msleep(delay);
-			setStep(rpio.LOW, rpio.LOW, rpio.LOW, rpio.HIGH)
-			rpio.msleep(delay);
-		}
-	}
-
-	function backward(delay, steps) {
-		for (var i = 0; i < steps; i++) {
-			setStep(rpio.LOW, rpio.LOW, rpio.LOW, rpio.HIGH)
-			rpio.msleep(delay);
-			setStep(rpio.LOW, rpio.LOW, rpio.HIGH, rpio.LOW)
-			rpio.msleep(delay);
-			setStep(rpio.LOW, rpio.HIGH, rpio.LOW, rpio.LOW)
-			rpio.msleep(delay);
-			setStep(rpio.HIGH, rpio.LOW, rpio.LOW, rpio.LOW)
-			rpio.msleep(delay);
-		}
+	function backward(angle) {
+		$.ajax ({
+			type: 'GET',
+			url: '/backward',
+			data: {'angle': angle},
+			success: function(_callback){$('#text').text(_callback);}
+		});
 	}
 
 	var updatebar = function(x) {
 		var maxduration = playVideo[0].duration; //Video 
 		var positions = x - progress.offset().left; //Click pos
 		var percentage = 100 * positions / $('.timebar .progress').width();
+		var angle = percentage - last_percentage;
 		//Check within range
-		if (percentage > 100) {
-			percentage = 100;
+		if (angle > 0) {
+			forward(angle);
 		}
-		if (percentage < 0) {
-			percentage = 0;
+		if (angle < 0) {
+			backward(-angle);
 		}
 
+		last_percentage = percentage;
 		//Update progress bar and video currenttime
 		progress.css('width', percentage + '%');
 		// playVideo[0].currentTime = maxduration * percentage / 100;
-		backward(3, 512)
+		
 	};
 
 	//音量控制
