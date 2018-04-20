@@ -1,12 +1,10 @@
 $(function() {
 	var last_percentage = 0;
-	var playVideo = $('video');
-	var playPause = $('.playPause'); //播放和暂停
 	var currentTime = $('.timebar .currentTime'); //当前时间
 	var duration = $('.timebar .duration'); //总时间
 	var progress = $('.timebar .progress-bar'); //进度条
 	var volumebar = $('.volumeBar .volumewrap').find('.progress-bar');
-	// playVideo[0].volume = 0.4; //初始化音量
+
 	playPause.on('click', function() {
 		playControl();
 	});
@@ -21,67 +19,52 @@ $(function() {
 			'right': -40
 		}, 500);
 	});
-	// $(document).click(function() {
-	// 	$('.volumeBar').hide();
-	// });
-	// playVideo.on('loadedmetadata', function() {
-	// 	duration.text(formatSeconds(playVideo[0].duration));
-	// });
 
-	// playVideo.on('timeupdate', function() {
-	// 	currentTime.text(formatSeconds(playVideo[0].currentTime));
-	// 	progress.css('width', 100 * playVideo[0].currentTime / playVideo[0].duration + '%');
+	// $(window).keyup(function(event){
+	// 	event = event || window.event;
+	// 		if(event.keyCode == 32)playControl();
+	// 		if(event.keyCode == 27){
+	// 		$('.fullScreen').removeClass('cancleScreen');
+	// 		$('#willesPlay .playControll').css({
+	// 			'bottom': -48
+	// 		}).removeClass('fullControll');
+	// 		};
+	// 	event.preventDefault();
 	// });
-	// playVideo.on('ended', function() {
-	// 	$('.playTip').removeClass('glyphicon-pause').addClass('glyphicon-play').fadeIn();
-	// 	playPause.toggleClass('playIcon');
-	// });
-	
-	$(window).keyup(function(event){
-		event = event || window.event;
-			if(event.keyCode == 32)playControl();
-			if(event.keyCode == 27){
-			$('.fullScreen').removeClass('cancleScreen');
-			$('#willesPlay .playControll').css({
-				'bottom': -48
-			}).removeClass('fullControll');
-			};
-		event.preventDefault();
-	});
 	
 	
 	//全屏
-	$('.fullScreen').on('click', function() {
-		if ($(this).hasClass('cancleScreen')) {
-			if (document.exitFullscreen) {
-				document.exitFullscreen();
-			} else if (document.mozExitFullScreen) {
-				document.mozExitFullScreen();
-			} else if (document.webkitExitFullscreen) {
-				document.webkitExitFullscreen();
-			}
-			$(this).removeClass('cancleScreen');
-			$('#willesPlay .playControll').css({
-				'bottom': -48
-			}).removeClass('fullControll');
-		} else {
-			if (playVideo[0].requestFullscreen) {
-				playVideo[0].requestFullscreen();
-			} else if (playVideo[0].mozRequestFullScreen) {
-				playVideo[0].mozRequestFullScreen();
-			} else if (playVideo[0].webkitRequestFullscreen) {
-				playVideo[0].webkitRequestFullscreen();
-			} else if (playVideo[0].msRequestFullscreen) {
-				playVideo[0].msRequestFullscreen();
-			}
-			$(this).addClass('cancleScreen');
-			$('#willesPlay .playControll').css({
-				'left': 0,
-				'bottom': 0
-			}).addClass('fullControll');
-		}
-		return false;
-	});
+	// $('.fullScreen').on('click', function() {
+	// 	if ($(this).hasClass('cancleScreen')) {
+	// 		if (document.exitFullscreen) {
+	// 			document.exitFullscreen();
+	// 		} else if (document.mozExitFullScreen) {
+	// 			document.mozExitFullScreen();
+	// 		} else if (document.webkitExitFullscreen) {
+	// 			document.webkitExitFullscreen();
+	// 		}
+	// 		$(this).removeClass('cancleScreen');
+	// 		$('#willesPlay .playControll').css({
+	// 			'bottom': -48
+	// 		}).removeClass('fullControll');
+	// 	} else {
+	// 		if (playVideo[0].requestFullscreen) {
+	// 			playVideo[0].requestFullscreen();
+	// 		} else if (playVideo[0].mozRequestFullScreen) {
+	// 			playVideo[0].mozRequestFullScreen();
+	// 		} else if (playVideo[0].webkitRequestFullscreen) {
+	// 			playVideo[0].webkitRequestFullscreen();
+	// 		} else if (playVideo[0].msRequestFullscreen) {
+	// 			playVideo[0].msRequestFullscreen();
+	// 		}
+	// 		$(this).addClass('cancleScreen');
+	// 		$('#willesPlay .playControll').css({
+	// 			'left': 0,
+	// 			'bottom': 0
+	// 		}).addClass('fullControll');
+	// 	}
+	// 	return false;
+	// });
 	//音量
 	// $('.volume').on('click', function(e) {
 	// 	e = e || window.event;
@@ -98,9 +81,6 @@ $(function() {
 		e = e || window.event;
 		updatebar(e.pageX);
 	});
-	//$('.playContent').on('mousewheel DOMMouseScroll',function(e){
-	//	volumeControl(e);
-	//});
 
 	function forward(angle) {
 		$.ajax ({
@@ -121,7 +101,6 @@ $(function() {
 	}
 
 	var updatebar = function(x) {
-		var maxduration = playVideo[0].duration; //Video 
 		var positions = x - progress.offset().left; //Click pos
 		var percentage = 100 * positions / $('.timebar .progress').width();
 		var angle = percentage - last_percentage;
@@ -134,54 +113,11 @@ $(function() {
 		}
 
 		last_percentage = percentage;
-		//Update progress bar and video currenttime
 		progress.css('width', percentage + '%');
 		
 	};
 
-	//音量控制
-	// function volumeControl(e) {
-	// 	e = e || window.event;
-	// 	var eventype = e.type;
-	// 	var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));
-	// 	var positions = 0;
-	// 	var percentage = 0;
-	// 	if (eventype == "click") {
-	// 		positions = volumebar.offset().top - e.pageY;
-	// 		percentage = 100 * (positions + volumebar.height()) / $('.volumeBar .volumewrap').height();
-	// 	} else if (eventype == "mousewheel" || eventype == "DOMMouseScroll") {
-	// 		percentage = 100 * (volumebar.height() + delta) / $('.volumeBar .volumewrap').height();
-	// 	}
-	// 	if (percentage < 0) {
-	// 		percentage = 0;
-	// 		$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-off');
-	// 	}
-	// 	if (percentage > 50) {
-	// 		$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-up');
-	// 	}
-	// 	if (percentage > 0 && percentage <= 50) {
-	// 		$('.otherControl .volume').attr('class', 'volume glyphicon glyphicon-volume-down');
-	// 	}
-	// 	if (percentage >= 100) {
-	// 		percentage = 100;
-	// 	}
-	// 	$('.volumewrap .progress-bar').css('height', percentage + '%');
-	// 	playVideo[0].volume = percentage / 100;
-	// 	e.stopPropagation();
-	// 	e.preventDefault();
-	// }
-
-	function playControl() {
-			playPause.toggleClass('playIcon');
-			if (playVideo[0].paused) {
-				playVideo[0].play();
-				$('.playTip').removeClass('glyphicon-play').addClass('glyphicon-pause').fadeOut();
-			} else {
-				playVideo[0].pause();
-				$('.playTip').removeClass('glyphicon-pause').addClass('glyphicon-play').fadeIn();
-			}
-		}
-		//关灯
+	//关灯
 	$('.btnLight').click(function(e) {
 		e = e || window.event;
 		if ($(this).hasClass('on')) {

@@ -8,7 +8,7 @@ def loop():
     camera.start_preview()
     while True:
         for i in range(5):
-            camera.start_recording('/home/pi/video/video{}.h264'.format(i))
+            camera.start_recording('static/video/video{}.h264'.format(i))
             sleep(1)
             camera.stop_recording()
 
