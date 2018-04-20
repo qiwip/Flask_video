@@ -1,0 +1,9 @@
+<uwsgi>
+     <pythonpath>/home/pi/Flask_video</pythonpath>
+     <module>index</module>
+     <callable>app</callable>
+     <socket>127.0.0.1:8000</socket> #注：设定套接字
+     <master/>
+     <processes>4</processes> #注：跑几个线程，这里用4个线程
+     <memory-report/>
+</uwsgi>

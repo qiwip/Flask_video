@@ -35,7 +35,7 @@ def backward():
 
 if __name__ == '__main__':
     try:
-        app.run(host='127.0.0.1', port=5005, threaded=True)
+        app.run()
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child function destroy() will be  executed.
         motor_backward(4 * total_angle)
         destroy()

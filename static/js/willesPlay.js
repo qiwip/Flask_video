@@ -5,20 +5,20 @@ $(function() {
 	var progress = $('.timebar .progress-bar'); //进度条
 	var volumebar = $('.volumeBar .volumewrap').find('.progress-bar');
 
-	playPause.on('click', function() {
-		playControl();
-	});
-	$('.playContent').on('click', function() {
-		playControl();
-	}).hover(function() {
-		$('.turnoff').stop().animate({
-			'right': 0
-		}, 500);
-	}, function() {
-		$('.turnoff').stop().animate({
-			'right': -40
-		}, 500);
-	});
+	// playPause.on('click', function() {
+	// 	playControl();
+	// });
+	// $('.playContent').on('click', function() {
+	// 	playControl();
+	// }).hover(function() {
+	// 	$('.turnoff').stop().animate({
+	// 		'right': 0
+	// 	}, 500);
+	// }, function() {
+	// 	$('.turnoff').stop().animate({
+	// 		'right': -40
+	// 	}, 500);
+	// });
 
 	// $(window).keyup(function(event){
 	// 	event = event || window.event;
