@@ -12,5 +12,5 @@ ffmpeg -f v4l2 -framerate 25 -video_size 640x480 -i /dev/video0 -f mpegts -codec
 ~~~
 第三步:
 ~~~
-sudo uwsgi_python -x /home/pi/Flask_video/flasksite.xml
+sudo uwsgi_python -x Flask_video/flasksite.xml
 ~~~
